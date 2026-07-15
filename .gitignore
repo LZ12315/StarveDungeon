@@ -1,0 +1,44 @@
+# Unity generated folders
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+
+# Unity generated files
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Unity crash/report output
+[Mm]emoryCaptures/
+[Rr]ecordings/
+sysinfo.txt
+
+# Asset store tools
+[Aa]ssets/AssetStoreTools*
+
+# IDE/editor state
+.vs/
+.vscode/
+.idea/
+*.tmp
+*.bak
+
+# Local Codex/agent metadata
+.agents/
+.codex/

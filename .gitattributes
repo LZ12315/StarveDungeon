@@ -1,0 +1,54 @@
+* text=auto
+.gitattributes text eol=lf
+.gitignore text eol=lf
+
+# Unity text assets
+*.cs text eol=lf
+*.shader text eol=lf
+*.cginc text eol=lf
+*.hlsl text eol=lf
+*.compute text eol=lf
+*.asmdef text eol=lf
+*.asmref text eol=lf
+*.asset text eol=lf
+*.prefab text eol=lf
+*.unity text eol=lf
+*.mat text eol=lf
+*.meta text eol=lf
+*.controller text eol=lf
+*.anim text eol=lf
+*.overrideController text eol=lf
+*.playable text eol=lf
+*.json text eol=lf
+*.txt text eol=lf
+*.md text eol=lf
+*.xml text eol=lf
+*.uxml text eol=lf
+*.uss text eol=lf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.tga binary
+*.psd binary
+*.fbx binary
+*.blend binary
+*.mp3 binary
+*.wav binary
+*.ogg binary
+*.mp4 binary
+*.mov binary
+*.avi binary
+*.dll binary
+*.exe binary
+*.so binary
+*.dylib binary
+*.a binary
+*.lib binary
+*.zip binary
+*.7z binary
+*.rar binary
+*.bytes binary
+*.bin binary

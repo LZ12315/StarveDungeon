@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fc4fcfcf61677a4b88ebbfb86a20094, type: 3}
+  m_Name: ChickenSO
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 4682496020027409238, guid: 3f6d186479e190045a0b1d7d63bf003f, type: 3}
+  formalSprite: {fileID: 2112692159, guid: b833e4115165b0c45b052bc24146e257, type: 3}
+  cookedSprite: {fileID: -1733525951, guid: b833e4115165b0c45b052bc24146e257, type: 3}
+  objectName: Chicken

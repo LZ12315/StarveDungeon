@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9595a3ac424c8ba4794c9aeada3ed030, type: 3}
+  m_Name: Apple-AppleSliced
+  m_EditorClassIdentifier: 
+  input: {fileID: 11400000, guid: 3d4f612f850f9634a8a60482222d7e9a, type: 2}
+  output: {fileID: 11400000, guid: 9196d27a5e55d6e4d8abf19576749939, type: 2}
+  cutTime: 2
