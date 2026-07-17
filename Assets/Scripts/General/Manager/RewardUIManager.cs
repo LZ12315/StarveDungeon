@@ -10,12 +10,12 @@ public class RewardUIManager : MonoBehaviour
     public static RewardUIManager instance;
     public GameObject RewardCanvas;
 
-    [Header("Ω±¿¯Ω” ’")]
+    [Header("Reward Source")]
     public List<ItemSO> rewardsThisWave;
     public List<ItemSO> rewardsToDisplay;
     private int currentWaveCount;
 
-    [Header("Ω±¿¯—°‘Ò")]
+    [Header("Reward Selection")]
     [SerializeField] public List<UIGameObject> UIGameObjects = new List<UIGameObject>();
     [Serializable]public struct UIGameObject
     {
@@ -35,166 +35,81 @@ public class RewardUIManager : MonoBehaviour
     {
         Time.timeScale = 0;
         rewardsThisWave = rewards;
+        currentWaveCount = wave;
+        rewardsToDisplay.Clear();
+
+        if (rewardsThisWave == null || rewardsThisWave.Count == 0)
+        {
+            Time.timeScale = 1.0f;
+            return;
+        }
+
         RewardCanvas.SetActive(true);
         SelectRandomRewards(3);
     }
 
     private void SelectRandomRewards(int count)
     {
-        if(currentWaveCount <= 3)
+        for (int i = 0; i < count; i++)
         {
-            for (int i = 0; i < count; i++)
+            ItemSO reward = GetRandomReward(RollRewardRank());
+            if (reward != null)
             {
-                int index = UnityEngine.Random.Range(1, 10);
-                if(index <= 7)
-                {
-                    while (true)
-                    {
-                        ItemSO newReward = rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)];
-                        if(newReward.rewardRank == RewardRank.Common)
-                        {
-                            rewardsToDisplay.Add(rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)]);
-                            break;
-                        }
-                    }
-                }
-                else if(index <= 10)
-                {
-                    while (true)
-                    {
-                        ItemSO newReward = rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)];
-                        if (newReward.rewardRank == RewardRank.Rare)
-                        {
-                            rewardsToDisplay.Add(rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)]);
-                            break;
-                        }
-                    }
-                }
+                rewardsToDisplay.Add(reward);
             }
         }
-        else if(currentWaveCount <= 6)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                int index = UnityEngine.Random.Range(1, 10);
-                if (index <= 6)
-                {
-                    while (true)
-                    {
-                        ItemSO newReward = rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)];
-                        if (newReward.rewardRank == RewardRank.Common)
-                        {
-                            rewardsToDisplay.Add(rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)]);
-                            break;
-                        }
-                    }
-                }
-                else if (index <= 9)
-                {
-                    while (true)
-                    {
-                        ItemSO newReward = rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)];
-                        if (newReward.rewardRank == RewardRank.Rare)
-                        {
-                            rewardsToDisplay.Add(rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)]);
-                            break;
-                        }
-                    }
-                }
-                else if (index <= 10)
-                {
-                    while (true)
-                    {
-                        ItemSO newReward = rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)];
-                        if (newReward.rewardRank == RewardRank.Epic)
-                        {
-                            rewardsToDisplay.Add(rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)]);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        else if(currentWaveCount <= 9)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                int index = UnityEngine.Random.Range(1, 10);
-                if (index <= 3)
-                {
-                    while (true)
-                    {
-                        ItemSO newReward = rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)];
-                        if (newReward.rewardRank == RewardRank.Common)
-                        {
-                            rewardsToDisplay.Add(rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)]);
-                            break;
-                        }
-                    }
-                }
-                else if (index <= 8)
-                {
-                    while (true)
-                    {
-                        ItemSO newReward = rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)];
-                        if (newReward.rewardRank == RewardRank.Rare)
-                        {
-                            rewardsToDisplay.Add(rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)]);
-                            break;
-                        }
-                    }
-                }
-                else if (index <= 10)
-                {
-                    while (true)
-                    {
-                        ItemSO newReward = rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)];
-                        if (newReward.rewardRank == RewardRank.Epic)
-                        {
-                            rewardsToDisplay.Add(rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)]);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        else if(currentWaveCount <= 11)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                int index = UnityEngine.Random.Range(1, 10);
-                if (index <= 5)
-                {
-                    while (true)
-                    {
-                        ItemSO newReward = rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)];
-                        if (newReward.rewardRank == RewardRank.Rare)
-                        {
-                            rewardsToDisplay.Add(rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)]);
-                            break;
-                        }
-                    }
-                }
-                else if (index <= 10)
-                {
-                    while (true)
-                    {
-                        ItemSO newReward = rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)];
-                        if (newReward.rewardRank == RewardRank.Epic)
-                        {
-                            rewardsToDisplay.Add(rewardsThisWave[UnityEngine.Random.Range(0, rewardsThisWave.Count)]);
-                            break;
-                        }
-                    }
-                }
-            }
-        } 
+
         DisplayRewardPreview();
+    }
+
+    private RewardRank RollRewardRank()
+    {
+        int index = UnityEngine.Random.Range(1, 11);
+
+        if (currentWaveCount <= 3)
+        {
+            return index <= 7 ? RewardRank.Common : RewardRank.Rare;
+        }
+
+        if (currentWaveCount <= 6)
+        {
+            if (index <= 6) return RewardRank.Common;
+            return index <= 9 ? RewardRank.Rare : RewardRank.Epic;
+        }
+
+        if (currentWaveCount <= 9)
+        {
+            if (index <= 3) return RewardRank.Common;
+            return index <= 8 ? RewardRank.Rare : RewardRank.Epic;
+        }
+
+        return index <= 5 ? RewardRank.Rare : RewardRank.Epic;
+    }
+
+    private ItemSO GetRandomReward(RewardRank rewardRank)
+    {
+        if (rewardsThisWave == null || rewardsThisWave.Count == 0)
+        {
+            return null;
+        }
+
+        List<ItemSO> matchingRewards = new List<ItemSO>();
+        foreach (ItemSO reward in rewardsThisWave)
+        {
+            if (reward.rewardRank == rewardRank)
+            {
+                matchingRewards.Add(reward);
+            }
+        }
+
+        List<ItemSO> rewardPool = matchingRewards.Count > 0 ? matchingRewards : rewardsThisWave;
+        return rewardPool[UnityEngine.Random.Range(0, rewardPool.Count)];
     }
 
     private void DisplayRewardPreview()
     {
-        for(int i = 0;i < rewardsToDisplay.Count;i++)
+        int displayCount = Mathf.Min(rewardsToDisplay.Count, UIGameObjects.Count);
+        for(int i = 0;i < displayCount;i++)
         {
             UIGameObject obj = UIGameObjects[i];
             obj.image.sprite = rewardsToDisplay[i].sprite;
@@ -205,29 +120,27 @@ public class RewardUIManager : MonoBehaviour
 
     public void SelectReward1()
     {
-        GameObject newReward = Instantiate(rewardsToDisplay[0].prefab);
-        IReward reward = newReward.GetComponent<IReward>();
-        reward.SetSubject(GameManager.instance.playerTransform.GetComponent<IRewardSubject>());
-        RewardCanvas.SetActive(false);
-        Time.timeScale = 1.0f;
-        rewardsThisWave.Clear();
-        rewardsToDisplay.Clear();
+        SelectReward(0);
     }
 
     public void SelectReward2()
     {
-        GameObject newReward = Instantiate(rewardsToDisplay[1].prefab);
-        IReward reward = newReward.GetComponent<IReward>();
-        reward.SetSubject(GameManager.instance.playerTransform.GetComponent<IRewardSubject>());
-        RewardCanvas.SetActive(false);
-        Time.timeScale = 1.0f;
-        rewardsThisWave.Clear();
-        rewardsToDisplay.Clear();
+        SelectReward(1);
     }
 
     public void SelectReward3()
     {
-        GameObject newReward = Instantiate(rewardsToDisplay[2].prefab);
+        SelectReward(2);
+    }
+
+    private void SelectReward(int index)
+    {
+        if (index < 0 || index >= rewardsToDisplay.Count)
+        {
+            return;
+        }
+
+        GameObject newReward = Instantiate(rewardsToDisplay[index].prefab);
         IReward reward = newReward.GetComponent<IReward>();
         reward.SetSubject(GameManager.instance.playerTransform.GetComponent<IRewardSubject>());
         RewardCanvas.SetActive(false);

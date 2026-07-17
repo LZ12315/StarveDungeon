@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class StovingCounter : BaseCounter,IInteractable
 {
-    [Header("Åëâ¿")]
+    [Header("Cooking")]
     public FryingRecipeSO[] FryingRecipeSOArray;
     public BurnedRecipeSO[] BurnedRecipeSOArray;
     public FryingRecipeSO nowFyingRecipeSO;
@@ -16,7 +16,7 @@ public class StovingCounter : BaseCounter,IInteractable
     public bool isFry;
     public bool isBurned;
 
-    [Header("Ð§¹û")]
+    [Header("Effects")]
     public GameObject fryingEffect;
 
     protected override void Awake()
@@ -102,12 +102,18 @@ public class StovingCounter : BaseCounter,IInteractable
                     nowObjectSO = GetFryingOutput(nowObject.ReturnObjectSO());
                     nowObject.CookingDestroy();
                     Create();
-                    ConfirmBurnedRecipe(nowObject.ReturnObjectSO());
-                    nowState = StovingState.Fried;
+                    if (ConfirmBurnedRecipe(nowObject.ReturnObjectSO()))
+                    {
+                        nowState = StovingState.Fried;
+                    }
+                    else
+                    {
+                        nowState = StovingState.Burned;
+                    }
                 }
                 break;
             case StovingState.Fried:
-                if (fryingTimer >= nowFyingRecipeSO.fryingTime + nowBurnedRecipeSO.fryingTime)
+                if (nowBurnedRecipeSO != null && fryingTimer >= nowFyingRecipeSO.fryingTime + nowBurnedRecipeSO.fryingTime)
                 {
                     nowObjectSO = GetBurnedOutput(nowObject.ReturnObjectSO());
                     nowObject.CookingDestroy();
@@ -118,6 +124,7 @@ public class StovingCounter : BaseCounter,IInteractable
             case StovingState.Burned:
                 isFry = false;
                 fryingTimer = 0;
+                fryingEffect.SetActive(false);
                 break;
         }
     }
@@ -201,6 +208,8 @@ public class StovingCounter : BaseCounter,IInteractable
     {
         base.TakeAwayObject();
         isFry = false;
+        nowState = StovingState.Idle;
+        fryingEffect.SetActive(false);
     }
     public enum StovingState
     {

@@ -7,8 +7,9 @@ using UnityEngine;
 public class WaveManager : MonoBehaviour
 {
     public static WaveManager instance;
+    private Coroutine beginNextWaveCoroutine;
 
-    [Header("波次数据")]
+    [Header("Wave Data")]
     public int currentWaveCount;
     public float maxEnemiesAllowed;
     public bool reachedMaxEnemies;
@@ -20,12 +21,12 @@ public class WaveManager : MonoBehaviour
     public float waveTimer;
     public VoidEventSO nextWaveEvent;
 
-    [Header("敌人生成")]
+    [Header("Enemy Spawn")]
     public List<Transform> enemySpawnBounds;
     public List<Transform> relativeSpawnPoints;
     public List<GameObject> spawnedEnemies = new List<GameObject>();
 
-    [Header("波次指示")]
+    [Header("Wave Indicators")]
     public GameObject Arrow;
     private List<GameObject> Arrows = new List<GameObject>();
     public List<GameObject> rewardToSelect;
@@ -63,10 +64,9 @@ public class WaveManager : MonoBehaviour
 
     private void Start()
     {
-        CalculateWaveQuota();
-        CalculateWaveQuota();
+        currentWaveCount = -1;
+        GameManager.instance.inWave = false;
         OnBeginNextWave(10);
-        StartCoroutine(BeginNextWave(0));
     }
 
     private void Update()
@@ -93,9 +93,15 @@ public class WaveManager : MonoBehaviour
 
     private void WaveTimeCounter()
     {
+        if (!GameManager.instance.inWave || currentWaveCount < 0 || currentWaveCount >= waves.Count)
+        {
+            return;
+        }
+
         waveTimer += Time.deltaTime;
         if(waveTimer >= waveDuration)
         {
+            GameManager.instance.inWave = false;
             SpawnRewards();
             OnBeginNextWave(0f);
         }
@@ -103,15 +109,27 @@ public class WaveManager : MonoBehaviour
 
     public void OnBeginNextWave(float interval)
     {
-        StartCoroutine(BeginNextWave(interval));
+        if (beginNextWaveCoroutine != null)
+        {
+            return;
+        }
+
+        beginNextWaveCoroutine = StartCoroutine(BeginNextWave(interval));
     }
 
     private IEnumerator BeginNextWave(float interval)
     {
+        int nextWaveIndex = currentWaveCount + 1;
+        if (nextWaveIndex >= waves.Count)
+        {
+            beginNextWaveCoroutine = null;
+            yield break;
+        }
+
         waveTimer = 0;
         CameraControl.Instance.SetTargetPlace(new Vector3(0, 0, 0));
-        //生成箭头指示器
-        foreach (Transform t in waves[(currentWaveCount)+1].placeToSpawn)
+        // Spawn arrows that preview the next wave direction.
+        foreach (Transform t in waves[nextWaveIndex].placeToSpawn)
         {
             GameObject arrow = Instantiate(Arrow, t.position * 0.75f, Quaternion.identity);
             Arrows.Add(arrow);
@@ -133,7 +151,8 @@ public class WaveManager : MonoBehaviour
 
         nextWaveEvent.RaiseEvent();
         GameManager.instance.inWave = true;
-        currentWaveCount++;
+        GameManager.instance.inPrepare = false;
+        currentWaveCount = nextWaveIndex;
         GameManager.instance.alivedEnemies.Clear();
         foreach(var arrow in Arrows)
         {
@@ -141,9 +160,10 @@ public class WaveManager : MonoBehaviour
         }
         Arrows.Clear();
         CalculateWaveQuota();
+        beginNextWaveCoroutine = null;
     }
 
-    #region 敌人生成
+    #region Enemy Spawn
 
     private void CalculateWaveQuota()
     {
@@ -155,6 +175,11 @@ public class WaveManager : MonoBehaviour
         }
 
         waves[currentWaveCount].waveQuota = currentWaveQuota;
+        waves[currentWaveCount].spawnCount = 0;
+        foreach (var enemyGroup in waves[currentWaveCount].enemyGroups)
+        {
+            enemyGroup.spawnCount = 0;
+        }
 
         Vector3 movePos = new Vector3(0, 0, 0);
         foreach (Transform t in waves[(currentWaveCount)].placeToSpawn)
@@ -164,7 +189,10 @@ public class WaveManager : MonoBehaviour
         CameraControl.Instance.SetTargetPlace(movePos);
 
         waveTimer = 0;
+        spawnerTimer = 0;
+        enemiesAlive = 0;
         enemiesDead = 0;
+        reachedMaxEnemies = false;
     }
 
     private void SpawnEnemies()
@@ -214,7 +242,7 @@ public class WaveManager : MonoBehaviour
 
     #endregion
 
-    #region 奖励相关
+    #region Rewards
 
     private void SpawnRewards()
     {

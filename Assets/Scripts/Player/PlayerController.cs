@@ -14,17 +14,17 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D rb;
     public Animator anim;
 
-    [Header("移动属性")]
+    [Header("Movement")]
     public float normalSpeed;
     public float currentspeed;
     public Vector2 inputDir;
     public Vector2 faceDir;
 
-    [Header("数值传递")]
+    [Header("Shared Stats")]
     public float passLate;
     private float passTimer;
 
-    [Header("物品投掷")]
+    [Header("Throwing")]
     public Object nowObject;
     public Queue<Object> bullets = new Queue<Object>();
     public float attackInterval = 1f;
@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 mousePos;
     private Vector2 castDir;
 
-    [Header("冲刺")]
+    [Header("Dash")]
     public bool canDash;
     public bool isDash;
     public float dashForce;
@@ -44,11 +44,11 @@ public class PlayerController : MonoBehaviour
     public float checkDistance;
     public LayerMask rapartLayer;
 
-    [Header("受伤")]
+    [Header("Hurt")]
     public bool isHurt;
     public float hurtForce;
 
-    [Header("事件监听")]
+    [Header("Events")]
     public SceneLoadEvent sceneLoadEvent;
     public VoidEventSO afterSceneLoadEvent;
 
@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    #region 移动相关
+    #region Movement
 
     private void TurnAround()
     {
@@ -117,16 +117,16 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        rb.velocity = new Vector2(inputDir.x * currentspeed * Time.deltaTime, inputDir.y * currentspeed * Time.deltaTime);
+        rb.velocity = inputDir * currentspeed;
     }
 
     #endregion
 
-    #region 攻击相关
+    #region Attack
 
     private void OnAim()
     {
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);//获取鼠标位置
+        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         castDir = new Vector2(mousePos.x - transform.position.x,mousePos.y - transform.position.y).normalized;
     }
 
@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region 冲刺相关
+    #region Dash
 
     private void OnDash(InputAction.CallbackContext context)
     {
@@ -253,7 +253,7 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region 其他
+    #region Other
 
     private void PassPlayerInfo()
     {

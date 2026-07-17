@@ -6,6 +6,8 @@ public class DropPoint : BaseCounter,IInteractable,IObjectParent,IRewardSubject
 {
     public Rigidbody2D rb;
     public FoodSO foodSO;
+    public Transform rewardPoint;
+    public IReward nowReward;
 
     protected override void Awake()
     {
@@ -53,31 +55,38 @@ public class DropPoint : BaseCounter,IInteractable,IObjectParent,IRewardSubject
     //    nowObject.transform.position = transform.position;
     //}
 
-    #region Ω±¿¯œ‡πÿ
+    #region Rewards
 
     public void ComeNewReward(IReward reward)
     {
-        throw new System.NotImplementedException();
+        nowReward = reward;
     }
 
     public void UseReward()
     {
-        throw new System.NotImplementedException();
+        if (nowReward == null)
+        {
+            return;
+        }
+
+        nowReward.RewardApply();
+        nowReward.ClearNowSubject();
+        ClearNowReward();
     }
 
     public Vector3 ReturnRewardPoint()
     {
-        throw new System.NotImplementedException();
+        return rewardPoint != null ? rewardPoint.position : transform.position;
     }
 
     public IReward ReturnNowReward()
     {
-        throw new System.NotImplementedException();
+        return nowReward;
     }
 
     public void ClearNowReward()
     {
-        throw new System.NotImplementedException();
+        nowReward = null;
     }
 
     public Transform ReturnSubjectTransform()
